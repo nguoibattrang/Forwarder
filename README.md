@@ -13,8 +13,6 @@ This pipeline showcases real-time data processing capabilities, combining flexib
 
 - **Real-Time Data Consumption**: Processes data from Kafka topics.
 - **Message Transformation**: Converts messages into a format compatible with Dify.
-- **AI Training Integration**: Sends processed data to Dify to facilitate AI model training.
-- **Structured Logging**: Uses `zap` for structured and production-grade logging.
 - **YAML Configuration**: Centralized configuration file for controlling pipeline behavior.
 
 ---
@@ -82,7 +80,7 @@ output:
 
 ## Usage
 
-1. Configure your input and output in `config.yaml`.
+1. Configure your input and output in `app.yaml`.
 2. Run the application using `go run main.go`.
 3. Check logs to monitor the pipeline's behavior.
 
