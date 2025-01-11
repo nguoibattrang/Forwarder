@@ -1,0 +1,11 @@
+source:
+  type: kafka
+  kafka:
+    address:
+      - kafka-server:9092
+    topic: source-topic
+    group: my-consumer-group
+
+sink:
+  url: http://output-system/api
+  secret: "secret"
