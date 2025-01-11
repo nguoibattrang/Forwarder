@@ -37,7 +37,7 @@ Kafka Topic --> [Filter] --> [Transform] --> Dify Training API
 
 The pipeline behavior is controlled through a YAML configuration file.
 
-### Example `app.yaml`:
+### Example `app.yml`:
 ```yaml
 source:
   type: kafka
