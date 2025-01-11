@@ -37,7 +37,7 @@ Kafka Topic --> [Filter] --> [Transform] --> Dify Training API
 
 The pipeline behavior is controlled through a YAML configuration file.
 
-### Example `config.yaml`:
+### Example `app.yaml`:
 ```yaml
 source:
   type: kafka
@@ -47,7 +47,7 @@ source:
     group: my-consumer-group
 
 output:
-  api_url: http://dify-training-system/api
+  url: http://dify-training-system/api
 ```
 
 ### Key Sections:
