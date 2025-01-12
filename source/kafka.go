@@ -2,51 +2,53 @@ package source
 
 import (
 	"context"
+	"encoding/json"
 	"forwarder/config"
-	"go.uber.org/zap"
-
-	"forwarder/logger"
 	"github.com/segmentio/kafka-go"
+	"go.uber.org/zap"
 )
-
-var log = logger.Log
 
 // KafkaSource implements the Source interface for Kafka.
 type KafkaSource struct {
 	address     []string
 	topic       string
 	consumerGrp string
+	log         *zap.Logger
 }
 
 // NewKafkaSource creates a new KafkaSource.
-func NewKafkaSource(config *config.KafkaConfig) *KafkaSource {
-
-	return &KafkaSource{address: config.Address, topic: config.Topic, consumerGrp: config.Group}
+func NewKafkaSource(config *config.KafkaConfig, log *zap.Logger) *KafkaSource {
+	return &KafkaSource{address: config.Address, topic: config.Topic, consumerGrp: config.Group, log: log}
 }
 
 // Consume starts consuming messages from Kafka.
-func (k *KafkaSource) Consume(ctx context.Context) <-chan string {
+func (inst *KafkaSource) Consume(ctx context.Context) <-chan Data {
 	r := kafka.NewReader(kafka.ReaderConfig{
-		Brokers: k.address,
-		Topic:   k.topic,
-		GroupID: k.consumerGrp,
+		Brokers: inst.address,
+		Topic:   inst.topic,
+		GroupID: inst.consumerGrp,
 	})
 
-	out := make(chan string)
+	out := make(chan Data)
 
 	go func() {
 		defer r.Close()
 		defer close(out)
 
-		log.Info("Kafka consumer started", zap.String("topic", k.topic), zap.String("group", k.consumerGrp))
+		inst.log.Info("Kafka consumer started", zap.String("topic", inst.topic), zap.String("group", inst.consumerGrp))
 		for {
 			m, err := r.ReadMessage(ctx)
 			if err != nil {
-				log.Error("Error reading Kafka message", zap.Error(err))
+				inst.log.Error("Error reading Kafka message", zap.Error(err))
 				return
 			}
-			log.Debug("Kafka message received", zap.String("message", string(m.Value)))
-			out <- string(m.Value)
+			var data Data
+			err = json.Unmarshal(m.Value, &data)
+			if err != nil {
+				inst.log.Error("Error unmarshalling Kafka message", zap.Error(err))
+				continue
+			}
+			out <- data
 		}
 	}()
 

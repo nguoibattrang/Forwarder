@@ -2,10 +2,13 @@ source:
   type: kafka
   kafka:
     address:
-      - kafka-server:9092
-    topic: source-topic
-    group: my-consumer-group
+      - 192.168.80.132:9092
+    topic: train-data
+    group: nbt-consumer-group2
 
 sink:
   url: http://output-system/api
   secret: "secret"
+
+logger:
+  mode: development
