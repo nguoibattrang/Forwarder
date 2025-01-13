@@ -3,7 +3,7 @@ package source
 import (
 	"context"
 	"encoding/json"
-	"forwarder/config"
+	"github.com/nguoibattrang/forwarder/config"
 	"github.com/segmentio/kafka-go"
 	"go.uber.org/zap"
 )

@@ -3,16 +3,17 @@ package main
 import (
 	"context"
 	"fmt"
-	"forwarder/extractor"
-	"forwarder/logger"
-	"forwarder/sink"
-	"forwarder/source"
-	"go.uber.org/zap"
 	"os"
 	"path/filepath"
 
-	"forwarder/config"
-	"forwarder/transform"
+	"github.com/nguoibattrang/forwarder/extractor"
+	"github.com/nguoibattrang/forwarder/logger"
+	"github.com/nguoibattrang/forwarder/sink"
+	"github.com/nguoibattrang/forwarder/source"
+	"go.uber.org/zap"
+
+	"github.com/nguoibattrang/forwarder/config"
+	"github.com/nguoibattrang/forwarder/transform"
 )
 
 func main() {
@@ -46,18 +47,18 @@ func main() {
 
 		title, extractedMessages, err := extractor.ExtractHTML(message.Type, message.Content)
 		if err != nil {
-			log.Error("extractor.ExtractHTML Failed to extract message", zap.Error(err))
+			log.Error("extractor.ExtractHTML failed to extract message", zap.Error(err))
 			continue
 		}
 		log.Debug("Successfully extracted message", zap.Any("messages", extractedMessages))
 		transformedMessage, err := transformer.Transform(extractedMessages)
 		if err != nil {
-			log.Error("transformer.Transform Failed to transform message", zap.Error(err))
+			log.Error("transformer.Transform failed to transform message", zap.Error(err))
 			continue
 		}
 
 		if err := producer.Produce(title, transformedMessage); err != nil {
-			log.Error("producer.Produce Failed to send message", zap.Error(err))
+			log.Error("producer.Produce failed to send message", zap.Error(err))
 		} else {
 			log.Debug("Successfully sent message")
 		}

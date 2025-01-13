@@ -2,7 +2,7 @@ package source
 
 import (
 	"fmt"
-	"forwarder/config"
+	"github.com/nguoibattrang/forwarder/config"
 	"go.uber.org/zap"
 )
 

@@ -1,4 +1,4 @@
-module forwarder
+module github.com/nguoibattrang/forwarder
 
 go 1.23
 

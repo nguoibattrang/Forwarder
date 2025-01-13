@@ -4,7 +4,7 @@ import (
 	"bytes"
 	"encoding/json"
 	"fmt"
-	"forwarder/config"
+	"github.com/nguoibattrang/forwarder/config"
 	"io"
 	"net/http"
 )
