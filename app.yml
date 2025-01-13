@@ -4,11 +4,12 @@ source:
     address:
       - 192.168.80.132:9092
     topic: train-data
-    group: nbt-consumer-group2
+    group: nbt-consumer-group
 
 sink:
-  url: http://output-system/api
+  hostname: http://output-system/api
   secret: "secret"
+  dataset_id: ""
 
 logger:
   mode: development

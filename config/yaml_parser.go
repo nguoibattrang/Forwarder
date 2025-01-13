@@ -22,8 +22,9 @@ type LogConfig struct {
 }
 
 type SinkConfig struct {
-	URL       string `yaml:"url"`
+	Hostname  string `yaml:"hostname"`
 	SecretKey string `yaml:"secret_key"`
+	DatasetId string `yaml:"dataset_id"`
 }
 
 type ServiceConfig struct {

@@ -44,7 +44,7 @@ func main() {
 	log.Info("Processing messages...")
 	for message := range messages {
 
-		extractedMessages, err := extractor.ExtractHTML(message.Type, message.Content)
+		title, extractedMessages, err := extractor.ExtractHTML(message.Type, message.Content)
 		if err != nil {
 			log.Error("extractor.ExtractHTML Failed to extract message", zap.Error(err))
 			continue
@@ -56,7 +56,7 @@ func main() {
 			continue
 		}
 
-		if err := producer.Produce(context.Background(), transformedMessage); err != nil {
+		if err := producer.Produce(title, transformedMessage); err != nil {
 			log.Error("producer.Produce Failed to send message", zap.Error(err))
 		} else {
 			log.Debug("Successfully sent message")

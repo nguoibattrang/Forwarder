@@ -15,16 +15,16 @@ type ExtractJiraItem struct {
 	SubtaskLinks []string `mapstructure:"Subtask Links"`
 }
 
-func ExtractJiraHTML(htmlData string) (*ExtractJiraItem, error) {
+func ExtractJiraHTML(htmlData string) (string, *ExtractJiraItem, error) {
 	doc, err := goquery.NewDocumentFromReader(strings.NewReader(htmlData))
 	if err != nil {
-		return nil, err
+		return "", nil, err
 	}
 	title := extractJiraTitle(doc)
 	if title == "" {
-		return nil, errors.New("title is empty")
+		return "", nil, errors.New("title is empty")
 	}
-	return &ExtractJiraItem{
+	return title, &ExtractJiraItem{
 		Title:        title,
 		Description:  extractJiraDescription(doc),
 		Comments:     extractJiraComments(doc),
