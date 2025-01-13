@@ -1,6 +1,6 @@
 FROM golang:1.22.4-alpine3.20 as build
 WORKDIR /build
-COPY ..
+COPY . .
 
 RUN /usr/local/go/bin/go build -ldflags "-s -w" ./cmd/forwarder
 
