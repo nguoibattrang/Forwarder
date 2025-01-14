@@ -61,10 +61,6 @@ output:
 ## Installation
 
 1. **Clone the Repository**:
-   ```bash
-   git clone https://github.com/your-repo/kafka-pipeline.git
-   cd kafka-pipeline
-   ```
 
 2. **Install Dependencies**:
    ```bash
@@ -81,7 +77,7 @@ output:
 ## Usage
 
 1. Configure your input and output in `app.yaml`.
-2. Run the application using `go run main.go`.
+2. Run the application using `go run cmd/forwarder`.
 3. Check logs to monitor the pipeline's behavior.
 
 ---
@@ -92,9 +88,9 @@ output:
 1. Implement the `Source` interface in the `input/` package.
 2. Add the new source type to the factory in `factory.go`.
 
-### Adding a New Filter
+### Adding a New Extractor
 1. Implement the `Filter` interface in the `filter/` package.
-2. Integrate the new filter into the message processing flow in `main.go`.
+2. Integrate the new extractor into the message processing flow in `main.go`.
 
 ### Adding a New Transformer
 1. Implement the `Transformer` interface in the `transform/` package.
@@ -102,28 +98,4 @@ output:
 
 ---
 
-## Dependencies
-
-- [zap](https://github.com/uber-go/zap): Structured logging.
-- [kafka-go](https://github.com/segmentio/kafka-go): Kafka client for Go.
-- [yaml.v3](https://pkg.go.dev/gopkg.in/yaml.v3): YAML parsing.
-
----
-
-## License
-
-This project is licensed under the MIT License. See the `LICENSE` file for details.
-
----
-
-## Contribution
-
-Contributions are welcome! Please follow these steps:
-1. Fork the repository.
-2. Create a feature branch.
-3. Submit a pull request.
-
-For major changes, please open an issue first to discuss your ideas.
-
----
 
