@@ -2,11 +2,13 @@ package sink
 
 import (
 	"bytes"
+	"crypto/tls"
 	"encoding/json"
 	"fmt"
-	"github.com/nguoibattrang/forwarder/config"
 	"io"
 	"net/http"
+
+	"github.com/nguoibattrang/forwarder/config"
 )
 
 type DifyProducer struct {
@@ -58,7 +60,13 @@ func createDifyKnowledgeDoc(apiKey, hostname, name, datasetId, text string) erro
 	req.Header.Set("Authorization", "Bearer "+apiKey)
 	req.Header.Set("Content-Type", "application/json")
 
-	client := &http.Client{}
+	client := &http.Client{
+		Transport: &http.Transport{
+			TLSClientConfig: &tls.Config{
+				InsecureSkipVerify: true,
+			},
+		},
+	}
 	resp, err := client.Do(req)
 	if err != nil {
 		return fmt.Errorf("HTTP request failed: %w", err)
@@ -67,7 +75,7 @@ func createDifyKnowledgeDoc(apiKey, hostname, name, datasetId, text string) erro
 
 	if resp.StatusCode != http.StatusOK {
 		body, _ := io.ReadAll(resp.Body)
-		return fmt.Errorf("API responded with status %d: %s", resp.StatusCode, string(body))
+		return fmt.Errorf("API %s responded with status %d: %s", url, resp.StatusCode, string(body))
 	}
 
 	return nil
