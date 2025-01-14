@@ -58,8 +58,10 @@ func extractJiraAssignee(doc *goquery.Document) []string {
 
 func extractJiraComments(doc *goquery.Document) []string {
 	var comments []string
-	doc.Find(".comment").Each(func(i int, s *goquery.Selection) {
-		comments = append(comments, s.Text())
+	doc.Find(".issue-data-block.activity-comment").Each(func(i int, s *goquery.Selection) {
+		commentText := s.Find(".action-body p").Text()
+		
+		comments = append(comments, commentText)
 	})
 	return comments
 }
